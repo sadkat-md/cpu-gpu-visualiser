@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
 import "./globals.css";
 
@@ -47,6 +48,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="relative min-h-full bg-bg text-ink">
         <SiteHeader />
         {children}
+        <Analytics />
       </body>
     </html>
   );

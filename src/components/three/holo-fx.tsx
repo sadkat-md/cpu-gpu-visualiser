@@ -1,5 +1,6 @@
 "use client";
 
+import { Environment } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import { useLayoutEffect, useMemo, useRef } from "react";
 import * as THREE from "three";
@@ -8,10 +9,11 @@ export function HoloRig({ accent }: { accent: "cpu" | "gpu" }) {
   const glow = accent === "cpu" ? "#e8b86d" : "#6ee7ff";
   return (
     <>
-      <color attach="background" args={["#02060c"]} />
-      <fog attach="fog" args={["#02060c", 16, 34]} />
-      <hemisphereLight args={["#9fdfff", "#02060c", 0.42]} />
-      <directionalLight position={[6, 10, 4]} intensity={1.25} color="#e7f7ff" />
+      <color attach="background" args={["#010204"]} />
+      <fog attach="fog" args={["#010204", 12, 30]} />
+      <Environment preset="city" />
+      <hemisphereLight args={["#9fdfff", "#02060c", 0.15]} />
+      <directionalLight position={[8, 12, 5]} intensity={1.5} color="#e7f7ff" castShadow />
       <HoloRings color={glow} />
       <ScanSweep color={glow} />
       <Dust color={glow} />

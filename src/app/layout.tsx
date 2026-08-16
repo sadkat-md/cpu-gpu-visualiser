@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import { SiteHeader } from "@/components/site-header";
+import { ConsoleWarningSuppressor } from "@/components/console-warning-suppressor";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -45,6 +46,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} ${instrument.variable} h-full antialiased`}
     >
       <body className="relative min-h-full bg-bg text-ink">
+        <ConsoleWarningSuppressor />
         <SiteHeader />
         {children}
       </body>

@@ -54,14 +54,15 @@ export function SiliconDie({
     <group scale={scale}>
       <mesh position={[0, -pkg.h / 2 - 0.04, 0]}>
         <boxGeometry args={[pkg.w + 0.7, 0.08, pkg.d + 0.7]} />
-        <meshStandardMaterial color="#07090e" metalness={0.68} roughness={0.4} />
+        <meshPhysicalMaterial color="#07090e" metalness={0.9} roughness={0.2} clearcoat={1} clearcoatRoughness={0.1} />
       </mesh>
       <mesh position={[0, -pkg.h / 2, 0]}>
         <boxGeometry args={[pkg.w, pkg.h, pkg.d]} />
-        <meshStandardMaterial
+        <meshPhysicalMaterial
           color={accent === "cpu" ? "#1a1410" : "#0b1416"}
-          metalness={0.7}
-          roughness={0.34}
+          metalness={0.85}
+          roughness={0.15}
+          clearcoat={0.6}
           map={map ?? undefined}
         />
       </mesh>
@@ -141,13 +142,17 @@ function DieModule({
         onPointerOut={() => setHovered(false)}
       >
         <boxGeometry args={[block.w, block.h, block.d]} />
-        <meshStandardMaterial
+        <meshPhysicalMaterial
           color={active ? glow : kindTint[block.kind]}
           map={active ? null : map}
-          roughness={active ? 0.2 : 0.38}
-          metalness={active ? 0.82 : 0.58}
+          roughness={active ? 0.1 : 0.2}
+          metalness={active ? 0.9 : 0.7}
+          clearcoat={1}
+          clearcoatRoughness={0.1}
+          transmission={active ? 0 : 0.5}
+          thickness={0.05}
           emissive={glow}
-          emissiveIntensity={active ? 0.55 : hovered ? 0.18 : 0.05}
+          emissiveIntensity={active ? 0.5 : hovered ? 0.2 : 0.02}
         />
       </mesh>
       {block.kind === "stack" ? <HbmStack width={block.w} depth={block.d} glow={glow} /> : null}
@@ -208,7 +213,7 @@ function MicroCells({
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <boxGeometry args={[0.08, 0.016, 0.06]} />
-      <meshBasicMaterial color={color} transparent opacity={0.85} />
+      <meshPhysicalMaterial color={color} transmission={0.9} thickness={0.02} roughness={0.1} metalness={0.1} clearcoat={1} />
     </instancedMesh>
   );
 }
@@ -243,7 +248,7 @@ function CacheStripes({
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, n]}>
       <boxGeometry args={[0.12, 0.012, 1]} />
-      <meshBasicMaterial color={glow} transparent opacity={0.28} />
+      <meshStandardMaterial emissive={glow} emissiveIntensity={0.6} color="#000" transparent opacity={0.6} />
     </instancedMesh>
   );
 }
@@ -265,7 +270,7 @@ function HbmStack({ width, depth, glow }: { width: number; depth: number; glow: 
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, 6]}>
       <boxGeometry args={[width * 0.9, 0.038, depth * 0.94]} />
-      <meshStandardMaterial color="#1f2824" metalness={0.72} roughness={0.28} emissive={glow} emissiveIntensity={0.06} />
+      <meshPhysicalMaterial color="#1f2824" metalness={0.85} roughness={0.15} clearcoat={1} emissive={glow} emissiveIntensity={0.08} />
     </instancedMesh>
   );
 }
@@ -336,7 +341,7 @@ function SolderBumps({
   return (
     <instancedMesh ref={mesh} args={[undefined, undefined, count]}>
       <sphereGeometry args={[0.03, 5, 5]} />
-      <meshStandardMaterial color="#d7b57a" roughness={0.22} metalness={0.9} />
+      <meshStandardMaterial color="#d7b57a" roughness={0.1} metalness={1} />
     </instancedMesh>
   );
 }

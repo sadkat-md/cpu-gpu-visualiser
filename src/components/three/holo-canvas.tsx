@@ -2,6 +2,7 @@
 
 import { OrbitControls } from "@react-three/drei";
 import { Canvas } from "@react-three/fiber";
+import { EffectComposer, Bloom, DepthOfField, Vignette, Noise } from "@react-three/postprocessing";
 import { Suspense, useEffect, useState, type ReactNode } from "react";
 import { HoloRig } from "@/components/three/holo-fx";
 
@@ -73,6 +74,12 @@ export function HoloCanvas({
             autoRotateSpeed={0.28}
             rotateSpeed={0.7}
           />
+          <EffectComposer>
+            <DepthOfField focusDistance={0.010} focalLength={0.10} bokehScale={0.5} height={480} />
+            <Bloom luminanceThreshold={0.7} luminanceSmoothing={0.9} intensity={0.5} mipmapBlur />
+            <Noise opacity={0.03} />
+            <Vignette eskil={false} offset={0.1} darkness={1.1} />
+          </EffectComposer>
         </Suspense>
       </Canvas>
       <div className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_at_center,transparent_42%,rgba(2,6,12,0.78)_100%)]" />

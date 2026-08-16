@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import { SiteHeader } from "@/components/site-header";
 import { ConsoleWarningSuppressor } from "@/components/console-warning-suppressor";
 import "./globals.css";
@@ -49,6 +50,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ConsoleWarningSuppressor />
         <SiteHeader />
         {children}
+        <Analytics />
       </body>
     </html>
   );
